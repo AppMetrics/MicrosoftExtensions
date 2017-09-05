@@ -34,8 +34,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{3B3721C0-41F
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{C0BC96C5-46E1-4323-9C5D-58D9A96549CD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{07876CE3-350D-45E9-8BAD-89D35A3E1C58}"
 	ProjectSection(SolutionItems) = preProject
 		build\common.props = build\common.props
