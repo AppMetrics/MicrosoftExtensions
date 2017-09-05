@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\common.props" />
+  
+  <PropertyGroup>
+     <Description>Microsoft.Extensions.Configuration support for App Metrics e.g. appsettings.json</Description>
+      <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>appmetrics;configuration</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics" Version="2.0.0-alpha-0656" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(AspNetCoreVersion)" />
+  </ItemGroup>
+
+</Project>
