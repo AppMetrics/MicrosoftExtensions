@@ -11,7 +11,7 @@ namespace App.Metrics.Extensions.DependencyInjection.Facts
     public class AppMetricsServiceCollectionExtensionsTests
     {
         [Fact]
-        public void Can_resolve_metrics_from_builder()
+        public void Can_resolve_metrics_from_service_collection()
         {
             // Arrange
             var builder = AppMetrics.CreateDefaultBuilder();
@@ -26,7 +26,22 @@ namespace App.Metrics.Extensions.DependencyInjection.Facts
         }
 
         [Fact]
-        public void Can_resolve_metrics_from_builder_setup_action()
+        public void Can_resolve_metrics_from_service_collection_when_pre_built()
+        {
+            // Arrange
+            var metrics = AppMetrics.CreateDefaultBuilder().Build();
+            var services = new ServiceCollection();
+
+            // Act
+            services.AddMetrics(metrics);
+
+            // Assert
+            var provider = services.BuildServiceProvider();
+            provider.GetService<IMetricsRoot>().Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Can_resolve_metrics_from_service_collection_when_using_builder_setup_action()
         {
             // Arrange
             var services = new ServiceCollection();

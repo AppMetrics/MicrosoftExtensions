@@ -49,6 +49,18 @@ namespace Microsoft.Extensions.DependencyInjection
             return services.AddMetrics(builder);
         }
 
+        public static IServiceCollection AddMetrics(this IServiceCollection services, IMetricsRoot metrics)
+        {
+            if (metrics == null)
+            {
+                throw new ArgumentNullException(nameof(metrics));
+            }
+
+            AddCoreServices(services, metrics);
+
+            return services;
+        }
+
         private static void AddCoreServices(IServiceCollection services, IMetricsRoot metrics)
         {
             services.TryAddSingleton<IClock>(metrics.Clock);
@@ -59,6 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<EnvFormatterCollection>(metrics.OutputEnvFormatters);
             services.TryAddSingleton<EnvironmentInfoProvider>(new EnvironmentInfoProvider());
             services.TryAddSingleton<IMetrics>(metrics);
+            services.TryAddSingleton<IMetricsRoot>(metrics);
             services.TryAddSingleton<MetricsOptions>(metrics.Options);
             services.TryAddSingleton<AppMetricsMarkerService, AppMetricsMarkerService>();
         }
