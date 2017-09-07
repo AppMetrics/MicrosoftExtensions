@@ -1,24 +1,22 @@
-﻿// <copyright file="ConfigurationMetricsOptionsConfigurationExtensions.cs" company="Allan Hardy">
+﻿// <copyright file="ConfigurationMetricsConfigurationExtensions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using App.Metrics.Tagging;
 using Microsoft.Extensions.Configuration;
 
 namespace App.Metrics.Extensions.Configuration
 {
     /// <summary>
-    /// Extends <see cref="ConfigurationMetricsOptionsConfigurationExtensions"/> with support for System.Configuration appSettings elements.
+    /// Extends <see cref="ConfigurationMetricsConfigurationExtensions"/> with support for System.Configuration appSettings elements.
     /// </summary>
-    public static class ConfigurationMetricsOptionsConfigurationExtensions
+    public static class ConfigurationMetricsConfigurationExtensions
     {
         private const string DefaultSectionName = nameof(MetricsOptions);
 
-        public static MetricsOptionsConfigurationBuilder Configure(
-            this MetricsOptionsConfigurationBuilder builder,
+        public static IMetricsConfigurationBuilder Configure(
+            this IMetricsConfigurationBuilder builder,
             IConfiguration configuration)
         {
             if (configuration == null)
@@ -31,8 +29,8 @@ namespace App.Metrics.Extensions.Configuration
             return builder;
         }
 
-        public static MetricsOptionsConfigurationBuilder Configure(
-            this MetricsOptionsConfigurationBuilder builder,
+        public static IMetricsConfigurationBuilder Configure(
+            this IMetricsConfigurationBuilder builder,
             IConfigurationSection configuration)
         {
             if (configuration == null)
