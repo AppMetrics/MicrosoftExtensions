@@ -20,10 +20,10 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class AppMetricsServiceCollectionExtensions
     {
-        public static IServiceCollection AddMetrics(this IServiceCollection services, Action<IMetricsBuilder> setupAction)
+        public static IServiceCollection AddMetrics(this IServiceCollection services, Action<IMetricsBuilder> setupMetrics)
         {
             var builder = new MetricsBuilder();
-            setupAction(builder);
+            setupMetrics(builder);
 
             return AddMetrics(services, builder);
         }
