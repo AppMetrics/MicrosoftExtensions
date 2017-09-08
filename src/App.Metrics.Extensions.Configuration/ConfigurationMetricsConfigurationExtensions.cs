@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
@@ -38,29 +39,10 @@ namespace App.Metrics.Extensions.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            var configGlobalTags = new GlobalMetricTags();
-            configuration.Bind(nameof(MetricsOptions.GlobalTags), configGlobalTags);
+            var keyValuePairs = new Dictionary<string, string>();
 
-            if (configGlobalTags?.Keys?.Any() != null)
-            {
-                // Keep the orginal global tags set but override with those set in config
-                var originalTags = builder.Options.GlobalTags.ToDictionary(t => t.Key, t => t.Value);
-                builder.Options.GlobalTags = new GlobalMetricTags();
-
-                configuration.Bind(builder.Options);
-
-                foreach (var tag in originalTags)
-                {
-                    if (!builder.Options.GlobalTags.ContainsKey(tag.Key))
-                    {
-                        builder.Options.GlobalTags.Add(tag.Key, tag.Value);
-                    }
-                }
-
-                return builder;
-            }
-
-            configuration.Bind(builder.Options);
+            configuration.Bind(keyValuePairs);
+            builder.Configure(keyValuePairs.ToDictionary(k => $"{nameof(MetricsOptions)}:{k.Key}", k => k.Value));
 
             return builder;
         }
