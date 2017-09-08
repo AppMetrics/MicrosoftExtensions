@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigurationMetricsOptionsConfigurationExtensionsTests.cs" company="Allan Hardy">
+﻿// <copyright file="InMemoryConfigurationExtensionsTests.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,7 @@ using Xunit;
 
 namespace App.Metrics.Extensions.Configuration.Facts
 {
-    public class ConfigurationMetricsOptionsConfigurationExtensionsTests
+    public class InMemoryConfigurationExtensionsTests
     {
         [Fact]
         public void Can_bind_metrics_options_from_configuration()
@@ -20,13 +20,14 @@ namespace App.Metrics.Extensions.Configuration.Facts
             var keyValuePairs = new Dictionary<string, string>
                                 {
                                     { "MetricsOptions:DefaultContextLabel", "Testing" },
-                                    { "MetricsOptions:GlobalTags", "tag1=value1, tag2=value2" },
+                                    { "MetricsOptions:GlobalTags:tag1", "value1" },
+                                    { "MetricsOptions:GlobalTags:tag2", "value2" },
                                     { "MetricsOptions:Enabled", "false" }
                                 };
             var configuration = new ConfigurationBuilder().AddInMemoryCollection(keyValuePairs).Build();
 
             // Act
-            builder.Configuration.Configure(configuration);
+            builder.Configuration.ReadFrom(configuration);
             var metrics = builder.Build();
 
             // Assert
@@ -42,7 +43,8 @@ namespace App.Metrics.Extensions.Configuration.Facts
             var builder = new MetricsBuilder();
             var keyValuePairs = new Dictionary<string, string>
                                 {
-                                    { "MetricsOptions:GlobalTags", "tag1=replaced, tag2=added" }
+                                    { "MetricsOptions:GlobalTags:tag1", "replaced" },
+                                    { "MetricsOptions:GlobalTags:tag2", "added" }
                                 };
             var configuration = new ConfigurationBuilder().AddInMemoryCollection(keyValuePairs).Build();
             var options = new MetricsOptions();
@@ -50,15 +52,19 @@ namespace App.Metrics.Extensions.Configuration.Facts
 
             // Act
             builder.Configuration.Configure(o => o.GlobalTags.Add("tag1", "value1"));
-            builder.Configuration.Configure(configuration);
+            builder.Configuration.ReadFrom(configuration);
             var metrics = builder.Build();
 
             // Assert
             metrics.Options.GlobalTags.Count.Should().Be(2);
-            metrics.Options.GlobalTags.First().Key.Should().Be("tag1");
-            metrics.Options.GlobalTags.First().Value.Should().Be("replaced");
-            metrics.Options.GlobalTags.Skip(1).First().Key.Should().Be("tag2");
-            metrics.Options.GlobalTags.Skip(1).First().Value.Should().Be("added");
+
+            var tag1 = metrics.Options.GlobalTags.FirstOrDefault(t => t.Key == "tag1");
+            tag1.Should().NotBeNull();
+            tag1.Value.Should().Be("replaced");
+
+            var tag2 = metrics.Options.GlobalTags.FirstOrDefault(t => t.Key == "tag2");
+            tag2.Should().NotBeNull();
+            tag2.Value.Should().Be("added");
         }
     }
 }

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
@@ -16,7 +15,7 @@ namespace App.Metrics.Extensions.Configuration
     {
         private const string DefaultSectionName = nameof(MetricsOptions);
 
-        public static IMetricsConfigurationBuilder Configure(
+        public static IMetricsConfigurationBuilder ReadFrom(
             this IMetricsConfigurationBuilder builder,
             IConfiguration configuration)
         {
@@ -25,12 +24,12 @@ namespace App.Metrics.Extensions.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            builder.Configure(configuration.GetSection(DefaultSectionName));
+            builder.ReadFrom(configuration.GetSection(DefaultSectionName));
 
             return builder;
         }
 
-        public static IMetricsConfigurationBuilder Configure(
+        public static IMetricsConfigurationBuilder ReadFrom(
             this IMetricsConfigurationBuilder builder,
             IConfigurationSection configuration)
         {
@@ -39,10 +38,7 @@ namespace App.Metrics.Extensions.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            var keyValuePairs = new Dictionary<string, string>();
-
-            configuration.Bind(keyValuePairs);
-            builder.Configure(keyValuePairs.ToDictionary(k => $"{DefaultSectionName}:{k.Key}", k => k.Value));
+            builder.Extend(configuration.AsEnumerable());
 
             return builder;
         }
