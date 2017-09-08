@@ -42,7 +42,7 @@ namespace App.Metrics.Extensions.Configuration
             var keyValuePairs = new Dictionary<string, string>();
 
             configuration.Bind(keyValuePairs);
-            builder.Configure(keyValuePairs.ToDictionary(k => $"{nameof(MetricsOptions)}:{k.Key}", k => k.Value));
+            builder.Configure(keyValuePairs.ToDictionary(k => $"{DefaultSectionName}:{k.Key}", k => k.Value));
 
             return builder;
         }
