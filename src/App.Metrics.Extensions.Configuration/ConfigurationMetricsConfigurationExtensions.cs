@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace App.Metrics.Extensions.Configuration
@@ -15,8 +14,8 @@ namespace App.Metrics.Extensions.Configuration
     {
         private const string DefaultSectionName = nameof(MetricsOptions);
 
-        public static IMetricsConfigurationBuilder ReadFrom(
-            this IMetricsConfigurationBuilder builder,
+        public static IMetricsBuilder ReadFrom(
+            this IMetricsConfigurationBuilder configurationBuilder,
             IConfiguration configuration)
         {
             if (configuration == null)
@@ -24,13 +23,13 @@ namespace App.Metrics.Extensions.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            builder.ReadFrom(configuration.GetSection(DefaultSectionName));
+            configurationBuilder.ReadFrom(configuration.GetSection(DefaultSectionName));
 
-            return builder;
+            return configurationBuilder.Builder;
         }
 
-        public static IMetricsConfigurationBuilder ReadFrom(
-            this IMetricsConfigurationBuilder builder,
+        public static IMetricsBuilder ReadFrom(
+            this IMetricsConfigurationBuilder configurationBuilder,
             IConfigurationSection configuration)
         {
             if (configuration == null)
@@ -38,9 +37,9 @@ namespace App.Metrics.Extensions.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            builder.Extend(configuration.AsEnumerable());
+            configurationBuilder.Extend(configuration.AsEnumerable());
 
-            return builder;
+            return configurationBuilder.Builder;
         }
     }
 }
