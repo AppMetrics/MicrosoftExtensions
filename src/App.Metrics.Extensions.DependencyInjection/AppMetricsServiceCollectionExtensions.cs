@@ -8,6 +8,7 @@ using App.Metrics.Filters;
 using App.Metrics.Formatters;
 using App.Metrics.Infrastructure;
 using App.Metrics.Internal.Infrastructure;
+using App.Metrics.Reporting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // ReSharper disable CheckNamespace
@@ -73,6 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IMetrics>(metrics);
             services.TryAddSingleton<IMetricsRoot>(metrics);
             services.TryAddSingleton<MetricsOptions>(metrics.Options);
+            services.TryAddSingleton<IRunMetricsReports>(metrics.Reporter);
             services.TryAddSingleton<AppMetricsMarkerService, AppMetricsMarkerService>();
         }
     }
