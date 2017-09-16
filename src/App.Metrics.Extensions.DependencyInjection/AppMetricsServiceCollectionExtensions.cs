@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using App.Metrics;
 using App.Metrics.Filters;
 using App.Metrics.Formatters;
@@ -67,14 +68,15 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IClock>(metrics.Clock);
             services.TryAddSingleton<IFilterMetrics>(metrics.Filter);
             services.TryAddSingleton<IMetricsOutputFormatter>(metrics.DefaultOutputMetricsFormatter);
-            services.TryAddSingleton<MetricsFormatterCollection>(metrics.OutputMetricsFormatters);
+            services.TryAddSingleton<IReadOnlyCollection<IMetricsOutputFormatter>>(metrics.OutputMetricsFormatters);
             services.TryAddSingleton<IEnvOutputFormatter>(metrics.DefaultOutputEnvFormatter);
-            services.TryAddSingleton<EnvFormatterCollection>(metrics.OutputEnvFormatters);
+            services.TryAddSingleton<IReadOnlyCollection<IEnvOutputFormatter>>(metrics.OutputEnvFormatters);
             services.TryAddSingleton<EnvironmentInfoProvider>(new EnvironmentInfoProvider());
             services.TryAddSingleton<IMetrics>(metrics);
             services.TryAddSingleton<IMetricsRoot>(metrics);
             services.TryAddSingleton<MetricsOptions>(metrics.Options);
-            services.TryAddSingleton<IRunMetricsReports>(metrics.Reporter);
+            services.TryAddSingleton<IReadOnlyCollection<IReportMetrics>>(metrics.Reporters);
+            services.TryAddSingleton<IRunMetricsReports>(metrics.ReportRunner);
             services.TryAddSingleton<AppMetricsMarkerService, AppMetricsMarkerService>();
         }
     }
