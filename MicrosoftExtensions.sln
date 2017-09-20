@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26823.1
+VisualStudioVersion = 15.0.26906.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
 EndProject
@@ -48,6 +48,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Conf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.DependencyInjection.Facts", "test\App.Metrics.Extensions.DependencyInjection.Facts\App.Metrics.Extensions.DependencyInjection.Facts.csproj", "{4186F651-B116-4FDC-9B43-96DBF0B919C8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{82216E00-F815-4464-9316-144F47326679}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsMicrosoftExtensionsSandbox", "sandbox\MetricsMicrosoftExtensionsSandbox\MetricsMicrosoftExtensionsSandbox.csproj", "{499ABA92-22D3-4E15-ADBF-701712FCD3E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,10 @@ Global
 		{4186F651-B116-4FDC-9B43-96DBF0B919C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4186F651-B116-4FDC-9B43-96DBF0B919C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4186F651-B116-4FDC-9B43-96DBF0B919C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499ABA92-22D3-4E15-ADBF-701712FCD3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499ABA92-22D3-4E15-ADBF-701712FCD3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499ABA92-22D3-4E15-ADBF-701712FCD3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499ABA92-22D3-4E15-ADBF-701712FCD3E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +90,7 @@ Global
 		{7AAA76AA-ED00-46E7-98D1-BF81BB1C2321} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{0675F1B7-06A0-4C0C-9070-48A36A926231} = {DD2E4647-7125-4CE3-9BA5-B45A26113A31}
 		{4186F651-B116-4FDC-9B43-96DBF0B919C8} = {DD2E4647-7125-4CE3-9BA5-B45A26113A31}
+		{499ABA92-22D3-4E15-ADBF-701712FCD3E0} = {82216E00-F815-4464-9316-144F47326679}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8699A1D-0BA1-403C-86E9-C789CD2645EB}
