@@ -36,7 +36,9 @@ var skipHtmlCoverageReport		= HasArgument("SkipHtmlCoverageReport") ? Argument<b
 //////////////////////////////////////////////////////////////////////
 var packDirs                    = new [] {
 											Directory("./src/App.Metrics.Extensions.Configuration"),
-											Directory("./src/App.Metrics.Extensions.DependencyInjection")
+											Directory("./src/App.Metrics.Extensions.DependencyInjection"),
+											Directory("./src/App.Metrics.Health.Extensions.Configuration"),
+											Directory("./src/App.Metrics.Health.Extensions.DependencyInjection")
 										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
 var testResultsDir              = (DirectoryPath) artifactsDir.Combine("test-results");

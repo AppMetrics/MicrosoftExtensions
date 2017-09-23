@@ -1,6 +1,7 @@
 <Project>
   <PropertyGroup>
     <AppMetricsCoreVersion>2.0.0-*</AppMetricsCoreVersion>
+    <AppMetricsHealthCoreVersion>2.0.0-*</AppMetricsHealthCoreVersion>
     <AspNetCoreVersion>2.0.0-*</AspNetCoreVersion>
     <CoreFxVersion>4.4.0-*</CoreFxVersion>
     <DependencyModelVersion>2.0.0-*</DependencyModelVersion>

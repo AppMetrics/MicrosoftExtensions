@@ -3,11 +3,13 @@
 // </copyright>
 
 using System.Linq;
+using App.Metrics;
+using App.Metrics.Extensions.Configuration;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace App.Metrics.Extensions.Configuration.Facts
+namespace Metrics.Extensions.Configuration.Facts
 {
     public class JsonConfigurationTests
     {

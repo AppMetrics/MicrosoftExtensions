@@ -2,11 +2,12 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
+using App.Metrics;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace App.Metrics.Extensions.DependencyInjection.Facts
+namespace Metrics.Extensions.DependencyInjection.Facts
 {
     public class AppMetricsServiceCollectionExtensionsTests
     {
