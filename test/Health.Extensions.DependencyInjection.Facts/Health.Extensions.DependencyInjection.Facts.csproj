@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\sandbox\HealthChecks\HealthChecks.csproj" />
     <ProjectReference Include="..\..\src\App.Metrics.Health.Extensions.DependencyInjection\App.Metrics.Health.Extensions.DependencyInjection.csproj" />
   </ItemGroup>
 

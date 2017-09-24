@@ -61,9 +61,9 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        private static void AddCoreServices(IServiceCollection services, IHealthRoot health)
+        internal static void AddCoreServices(IServiceCollection services, IHealthRoot health)
         {
-            services.TryAddSingleton<IReadOnlyCollection<IHealthOutputFormatter>>(health.OutputHealthFormatters);
+            services.TryAddSingleton<IReadOnlyCollection<IHealthOutputFormatter>>(provider => health.OutputHealthFormatters);
             services.TryAddSingleton<IHealth>(health);
             services.TryAddSingleton<IHealthRoot>(health);
             services.TryAddSingleton<HealthOptions>(health.Options);
