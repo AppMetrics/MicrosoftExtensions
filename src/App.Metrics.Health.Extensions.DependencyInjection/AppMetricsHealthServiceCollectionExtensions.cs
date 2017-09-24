@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using App.Metrics.Health;
 using App.Metrics.Health.Builder;
+using App.Metrics.Health.Extensions.DependencyInjection.Internal;
 using App.Metrics.Health.Formatters;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -67,6 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IHealthRoot>(health);
             services.TryAddSingleton<HealthOptions>(health.Options);
             services.TryAddSingleton<IRunHealthChecks>(health.HealthCheckRunner);
+            services.TryAddSingleton<AppMetricsHealthMarkerService, AppMetricsHealthMarkerService>();
         }
     }
 }
