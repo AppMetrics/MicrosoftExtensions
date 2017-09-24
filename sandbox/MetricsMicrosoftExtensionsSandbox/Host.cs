@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics;
 using App.Metrics.Extensions.Configuration;
+using App.Metrics.Extensions.DependencyInjection;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,8 +33,6 @@ namespace MetricsMicrosoftExtensionsSandbox
 
             var metrics = ServiceProvider.GetRequiredService<IMetricsRoot>();
             var reporter = ServiceProvider.GetRequiredService<IRunMetricsReports>();
-
-            PressAnyKeyToContinue();
 
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -142,21 +141,21 @@ namespace MetricsMicrosoftExtensionsSandbox
 
             Configuration = configurationBuilder.Build();
 
-            var metrics = new MetricsBuilder()
-                .Configuration.ReadFrom(Configuration)
-                .OutputEnvInfo.AsPlainText()
-                .OutputMetrics.AsPlainText()
-                .OutputMetrics.AsJson()
-                .Report.Using<SimpleConsoleMetricsReporter>(TimeSpan.FromSeconds(5))
-                .Build();
-
             var services = new ServiceCollection();
+
             services.AddLogging(builder =>
             {
                 builder.SetMinimumLevel(LogLevel.Trace);
                 builder.AddConsole();
             });
-            services.AddMetrics(metrics);
+
+            var unused = new MetricsBuilder()
+                .Configuration.ReadFrom(Configuration)
+                .OutputEnvInfo.AsPlainText()
+                .OutputMetrics.AsPlainText()
+                .OutputMetrics.AsJson()
+                .Report.Using<SimpleConsoleMetricsReporter>(TimeSpan.FromSeconds(5))
+                .BuildAndAddTo(services);
 
             ServiceProvider = services.BuildServiceProvider();
         }
