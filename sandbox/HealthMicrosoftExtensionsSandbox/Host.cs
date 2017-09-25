@@ -72,6 +72,7 @@ namespace HealthMicrosoftExtensionsSandbox
                 .Configuration.ReadFrom(Configuration)
                 .OutputHealth.AsPlainText()
                 .OutputHealth.AsJson()
+                .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
                 .HealthChecks.RegisterFromAssembly(services, Assembly.GetEntryAssembly().GetName().Name)
                 .BuildAndAddTo(services);
 

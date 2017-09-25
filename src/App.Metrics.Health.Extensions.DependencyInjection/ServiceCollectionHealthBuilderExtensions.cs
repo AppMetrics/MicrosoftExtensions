@@ -17,9 +17,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionHealthBuilderExtensions
     {
-        private static bool _hasResolvedChecks;
-        private static IEnumerable<HealthCheck> _resolvedChecks = Enumerable.Empty<HealthCheck>();
-
         public static IHealthRoot BuildAndAddTo(
             this IHealthBuilder builder,
             IServiceCollection services)
@@ -63,17 +60,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static IEnumerable<HealthCheck> ResolveAllHealthChecks(IServiceProvider provider, IHealth health)
         {
-            if (_hasResolvedChecks)
-            {
-                return _resolvedChecks;
-            }
-
-            _resolvedChecks = provider.GetRequiredService<IEnumerable<HealthCheck>>();
+            var resolvedChecks = provider.GetRequiredService<IEnumerable<HealthCheck>>();
             var result = health.Checks.ToList();
 
             var existingNames = result.Select(c => c.Name).ToList();
 
-            foreach (var check in _resolvedChecks)
+            foreach (var check in resolvedChecks)
             {
                 if (existingNames.Contains(check.Name))
                 {
@@ -82,8 +74,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 result.Add(check);
             }
-
-            _hasResolvedChecks = true;
 
             return result;
         }

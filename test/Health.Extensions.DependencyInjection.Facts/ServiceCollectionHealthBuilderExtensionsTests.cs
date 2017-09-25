@@ -91,5 +91,33 @@ namespace Health.Extensions.DependencyInjection.Facts
             health.Checks.Skip(1).First().Name.Should().Be("Referenced Health Check");
 #endif
         }
+
+        [Fact]
+        public void Should_append_resolved_health_checks_to_those_explicitly_registered()
+        {
+            // Arrange
+            var services = new ServiceCollection();
+            services.AddSingleton<IDatabase, Database>();
+
+            // Act
+            var unused = new HealthBuilder()
+                .HealthChecks.AddCheck("inline", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
+                .HealthChecks.RegisterFromAssembly(services, _fixture.StartupAssemblyName)
+                .BuildAndAddTo(services);
+            var provider = services.BuildServiceProvider();
+            var health = provider.GetRequiredService<IHealth>();
+
+            // Assert
+#if NET461 // TODO: DependencyContext is used to find health checks in referenced assemblies which isn't working in <= NET461
+            health.Checks.Count().Should().Be(2);
+            health.Checks.FirstOrDefault(c => c.Name == "DatabaseCheck").Should().NotBeNull();
+            health.Checks.FirstOrDefault(c => c.Name == "inline").Should().NotBeNull();
+#else
+            health.Checks.Count().Should().Be(3);
+            health.Checks.FirstOrDefault(c => c.Name == "DatabaseCheck").Should().NotBeNull();
+            health.Checks.FirstOrDefault(c => c.Name == "Referenced Health Check").Should().NotBeNull();
+            health.Checks.FirstOrDefault(c => c.Name == "inline").Should().NotBeNull();
+#endif
+        }
     }
 }
