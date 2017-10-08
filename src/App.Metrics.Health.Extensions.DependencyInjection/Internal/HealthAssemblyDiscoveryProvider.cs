@@ -11,7 +11,7 @@ namespace App.Metrics.Health.Extensions.DependencyInjection.Internal
 {
     internal static class HealthAssemblyDiscoveryProvider
     {
-        private static readonly string ReferenceAssembliesPrefix = "App.Metrics.Health";
+        private static readonly string ReferenceAssembliesPrefix = "App.Metrics";
 
         // ReSharper disable MemberCanBePrivate.Global
         internal static IEnumerable<Assembly> DiscoverAssemblies(string entryPointAssemblyName)
