@@ -32,7 +32,10 @@ namespace App.Metrics.Health.Extensions.DependencyInjection.Internal
             }
             else
             {
-                var nonSystemAssemblies = from outputAssemblyPath in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
+                var dlls = System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+                var exes = System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.exe");
+                var files = dlls?.Concat(exes);
+                var nonSystemAssemblies = from outputAssemblyPath in files
                                           let assemblyFileName = System.IO.Path.GetFileNameWithoutExtension(outputAssemblyPath)
                                           where assemblyFileName != null && !assemblyFileName.ToLowerInvariant().StartsWith("system.") && !assemblyFileName.ToLowerInvariant().StartsWith("microsoft.")
                                           select Assembly.Load(AssemblyName.GetAssemblyName(outputAssemblyPath));
