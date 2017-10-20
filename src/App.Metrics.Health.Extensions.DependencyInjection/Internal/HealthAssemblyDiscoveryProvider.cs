@@ -2,6 +2,7 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,28 +12,41 @@ namespace App.Metrics.Health.Extensions.DependencyInjection.Internal
 {
     internal static class HealthAssemblyDiscoveryProvider
     {
-        private static readonly string ReferenceAssembliesPrefix = "App.Metrics";
+        private static readonly string ReferenceAssembliesPrefix = "app.metrics";
 
         // ReSharper disable MemberCanBePrivate.Global
-        internal static IEnumerable<Assembly> DiscoverAssemblies(string entryPointAssemblyName)
+        internal static IEnumerable<Assembly> DiscoverAssemblies(DependencyContext dependencyContext = null)
         {
-            var entryAssembly = Assembly.Load(new AssemblyName(entryPointAssemblyName));
-            var context = DependencyContext.Load(Assembly.Load(new AssemblyName(entryPointAssemblyName)));
-
-            return GetCandidateAssemblies(entryAssembly, context);
+            return GetCandidateAssemblies(dependencyContext ?? GetDependencyContext());
         }
 
-        internal static IEnumerable<Assembly> GetCandidateAssemblies(Assembly entryAssembly, DependencyContext dependencyContext)
+        internal static IEnumerable<Assembly> GetCandidateAssemblies(DependencyContext dependencyContext)
         {
-            if (dependencyContext == null)
+            var query = Enumerable.Empty<Assembly>();
+
+            if (dependencyContext != null)
             {
-                // Use the entry assembly as the sole candidate.
-                return new[] { entryAssembly };
+                query = GetCandidateLibraries(dependencyContext).
+                    SelectMany(library => library.GetDefaultAssemblyNames(dependencyContext)).
+                    Select(Assembly.Load);
+            }
+            else
+            {
+                var nonSystemAssemblies = from outputAssemblyPath in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
+                                          let assemblyFileName = System.IO.Path.GetFileNameWithoutExtension(outputAssemblyPath)
+                                          where assemblyFileName != null && !assemblyFileName.ToLowerInvariant().StartsWith("system.") && !assemblyFileName.ToLowerInvariant().StartsWith("microsoft.")
+                                          select Assembly.Load(AssemblyName.GetAssemblyName(outputAssemblyPath));
+
+                var assemblies = nonSystemAssemblies.ToArray();
+
+                query = from assembly in assemblies
+                        let referencedAssemblies = assembly.GetReferencedAssemblies()
+                        where referencedAssemblies.Any(
+                            referencedAssembly => referencedAssembly.Name.ToLowerInvariant().StartsWith(ReferenceAssembliesPrefix))
+                        select assembly;
             }
 
-            return GetCandidateLibraries(dependencyContext).
-                SelectMany(library => library.GetDefaultAssemblyNames(dependencyContext)).
-                Select(Assembly.Load);
+            return query.ToArray();
         }
 
         internal static IEnumerable<RuntimeLibrary> GetCandidateLibraries(DependencyContext dependencyContext)
@@ -40,9 +54,14 @@ namespace App.Metrics.Health.Extensions.DependencyInjection.Internal
             return dependencyContext.RuntimeLibraries.Where(IsCandidateLibrary);
         }
 
+        internal static DependencyContext GetDependencyContext()
+        {
+            return Assembly.GetEntryAssembly() != null ? DependencyContext.Default : null;
+        }
+
         private static bool IsCandidateLibrary(RuntimeLibrary library)
         {
-            return library.Name.StartsWith(ReferenceAssembliesPrefix) || library.Dependencies.Any(d => d.Name.StartsWith(ReferenceAssembliesPrefix));
+            return library.Name.StartsWith(ReferenceAssembliesPrefix) || library.Dependencies.Any(d => d.Name.ToLowerInvariant().StartsWith(ReferenceAssembliesPrefix));
         }
 
         // ReSharper restore MemberCanBePrivate.Global

@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using System.Reflection;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Health.Extensions.DependencyInjection.Facts.Fixtures
 {
@@ -10,10 +12,10 @@ namespace Health.Extensions.DependencyInjection.Facts.Fixtures
     {
         public HealthFixture()
         {
-            StartupAssemblyName = typeof(HealthFixture).Assembly.GetName().Name;
+            DependencyContext = DependencyContext.Load(Assembly.Load(typeof(HealthFixture).Assembly.GetName().Name));
         }
 
-        public string StartupAssemblyName { get; }
+        public DependencyContext DependencyContext { get; }
 
         public void Dispose() { }
     }
