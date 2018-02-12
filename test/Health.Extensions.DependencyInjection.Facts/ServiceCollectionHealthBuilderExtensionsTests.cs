@@ -81,6 +81,24 @@ namespace Health.Extensions.DependencyInjection.Facts
         }
 
         [Fact]
+        public void Should_only_register_class_deriving_health_check()
+        {
+            // Arrange
+            var services = new ServiceCollection();
+            services.AddSingleton<IDatabase, Database>();
+
+            // Act
+            var unused = new HealthBuilder()
+                         .HealthChecks.RegisterFromAssembly(services, _fixture.DependencyContext)
+                         .BuildAndAddTo(services);
+            var provider = services.BuildServiceProvider();
+            var health = provider.GetRequiredService<IHealth>();
+
+            // Assert
+            health.Checks.FirstOrDefault(h => h.Name == nameof(DontRegisterHealthCheck)).Should().BeNull();
+        }
+
+        [Fact]
         public void Should_append_resolved_health_checks_to_those_explicitly_registered()
         {
             // Arrange

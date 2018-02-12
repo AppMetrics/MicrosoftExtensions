@@ -70,8 +70,7 @@ namespace App.Metrics.Health.Extensions.DependencyInjection.Internal
                 return false;
             }
 
-            if (!typeInfo.Name.EndsWith(HealthCheckTypeName, StringComparison.OrdinalIgnoreCase) &&
-                !DerivesFromHealthCheck(typeInfo, candidateAssemblies))
+            if (!DerivesFromHealthCheck(typeInfo, candidateAssemblies))
             {
                 return false;
             }
