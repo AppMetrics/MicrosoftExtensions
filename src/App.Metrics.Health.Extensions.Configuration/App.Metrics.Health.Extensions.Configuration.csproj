@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="App.Metrics.Health" Version="$(AppMetricsHealthCoreVersion)" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(MicrosoftExtensionsVersion)" />
   </ItemGroup>
 
 </Project>
