@@ -33,8 +33,8 @@ deploy:
   skip_symbols: true
   symbol_server: https://www.myget.org/F/appmetrics/symbol
 install:
-  - cmd: curl -O https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.300-preview1-windows-x64-installer
-  - cmd: dotnet-sdk-2.1.300-preview1-008174-win-x64 /install /quiet /norestart /log install.log
+  - cmd: curl -O https://dotnetcli.azureedge.net/dotnet/Sdk/2.1.300-preview2-008367/dotnet-sdk-2.1.300-preview2-008367-win-x64.exe
+  - cmd: dotnet-sdk-2.1.300-preview2-008367-win-x64.exe /install /quiet /norestart /log install.log
 skip_commits:
   files:    
     - '**/*.md'
