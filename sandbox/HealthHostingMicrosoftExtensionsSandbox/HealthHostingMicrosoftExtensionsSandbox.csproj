@@ -25,6 +25,7 @@
 		<ProjectReference Include="..\..\src\App.Metrics.Health.Extensions.Configuration\App.Metrics.Health.Extensions.Configuration.csproj" />
 		<ProjectReference Include="..\..\src\App.Metrics.Health.Extensions.DependencyInjection\App.Metrics.Health.Extensions.DependencyInjection.csproj" />
 		<ProjectReference Include="..\..\src\App.Metrics.Health.Extensions.Hosting\App.Metrics.Health.Extensions.Hosting.csproj" />
+		<ProjectReference Include="..\HealthChecks\HealthChecks.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
