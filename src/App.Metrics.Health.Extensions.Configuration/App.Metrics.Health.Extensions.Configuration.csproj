@@ -6,7 +6,7 @@
      <Description>Microsoft.Extensions.Configuration support for App Metrics Health e.g. appsettings.json</Description>
       <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageTags>appmetricshealth;configuration</PackageTags>
+    <PackageTags>appmetrics;health;configuration</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
