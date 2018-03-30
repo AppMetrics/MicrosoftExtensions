@@ -40,6 +40,7 @@ var linkSources					= HasArgument("LinkSources") ? Argument<bool>("LinkSources")
 var packDirs                    = new [] {
 											Directory("./src/App.Metrics.Extensions.Configuration"),
 											Directory("./src/App.Metrics.Extensions.DependencyInjection"),
+											Directory("./src/App.Metrics.Extensions.Hosting"),
 											Directory("./src/App.Metrics.Health.Extensions.Configuration"),
 											Directory("./src/App.Metrics.Health.Extensions.DependencyInjection")
 										};
