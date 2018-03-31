@@ -29,19 +29,21 @@ namespace HealthHostingMicrosoftExtensionsSandbox
                          .CreateLogger();
 
             var host = new HostBuilder().ConfigureAppConfiguration(
-                (hostContext, config) =>
-                {
-                    config.SetBasePath(Directory.GetCurrentDirectory());
-                    config.AddEnvironmentVariables();
-                    config.AddJsonFile("appsettings.json", optional: true);
-                    config.AddCommandLine(args);
-                }).ConfigureHealthWithDefaults(
-                (context, builder) =>
-                {
-                    builder.OutputHealth.AsPlainText()
-                           .OutputHealth.AsJson()
-                           .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()));
-                }).Build();
+                    (hostContext, config) =>
+                    {
+                        config.SetBasePath(Directory.GetCurrentDirectory());
+                        config.AddEnvironmentVariables();
+                        config.AddJsonFile("appsettings.json", optional: true);
+                        config.AddCommandLine(args);
+                    })
+                .ConfigureHealthWithDefaults(
+                    (context, builder) =>
+                    {
+                        builder.OutputHealth.AsPlainText()
+                               .OutputHealth.AsJson()
+                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()));
+                    })
+                .Build();
 
             var health = host.Services.GetRequiredService<IHealthRoot>();
 

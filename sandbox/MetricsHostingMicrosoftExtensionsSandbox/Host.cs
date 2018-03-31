@@ -7,9 +7,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics;
-using App.Metrics.Extensions.Configuration;
 using App.Metrics.Extensions.Hosting;
-using App.Metrics.Reporting;
+using App.Metrics.Scheduling;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,28 +22,29 @@ namespace MetricsHostingMicrosoftExtensionsSandbox
     {
         public static async Task Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().WriteTo.LiterateConsole(LogEventLevel.Information).WriteTo.
-                                                   Seq("http://localhost:5341", LogEventLevel.Verbose).CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+                         .MinimumLevel.Verbose()
+                         .WriteTo.LiterateConsole(LogEventLevel.Information)
+                         .WriteTo.Seq("http://localhost:5341", LogEventLevel.Verbose)
+                         .CreateLogger();
 
-            var host = new HostBuilder().ConfigureAppConfiguration(
-                (hostContext, config) =>
-                {
-                    config.SetBasePath(Directory.GetCurrentDirectory());
-                    config.AddEnvironmentVariables();
-                    config.AddJsonFile("appsettings.json", optional: true);
-                    config.AddCommandLine(args);
-                }).ConfigureMetricsWithDefaults(
-                (context, builder) =>
-                {
-                    builder.Configuration.ReadFrom(context.Configuration);
-                    builder.OutputEnvInfo.AsPlainText();
-                    builder.OutputMetrics.AsPlainText();
-                    builder.OutputMetrics.AsJson();
-                    builder.Report.Using<SimpleConsoleMetricsReporter>(TimeSpan.FromSeconds(5));
-                }).Build();
+            var host = new HostBuilder()
+                .ConfigureAppConfiguration(
+                    (hostContext, config) =>
+                    {
+                        config.SetBasePath(Directory.GetCurrentDirectory());
+                        config.AddEnvironmentVariables();
+                        config.AddJsonFile("appsettings.json", optional: true);
+                        config.AddCommandLine(args);
+                    })
+                 .ConfigureMetrics(
+                    (context, builder) =>
+                    {
+                        builder.Report.Using<SimpleConsoleMetricsReporter>(TimeSpan.FromSeconds(5));
+                    })
+                .Build();
 
             var metrics = host.Services.GetRequiredService<IMetricsRoot>();
-            var reporter = host.Services.GetRequiredService<IRunMetricsReports>();
 
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -56,15 +56,16 @@ namespace MetricsHostingMicrosoftExtensionsSandbox
 
             host.PressAnyKeyToContinue();
 
-            await host.RunUntilEscAsync(
-                TimeSpan.FromSeconds(5),
-                cancellationTokenSource,
-                async () =>
+            var recordMetricsTask = new AppMetricsTaskScheduler(
+                TimeSpan.FromSeconds(2),
+                () =>
                 {
                     Clear();
                     host.RecordMetrics(metrics);
-                    await Task.WhenAll(reporter.RunAllAsync(cancellationTokenSource.Token));
+                    return Task.CompletedTask;
                 });
+
+            recordMetricsTask.Start();
 
             await host.RunAsync(token: cancellationTokenSource.Token);
         }
