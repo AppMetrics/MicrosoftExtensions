@@ -4,11 +4,13 @@
 
 using System;
 using System.Linq;
+using App.Metrics;
 using App.Metrics.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-namespace App.Metrics.Extensions.Hosting
+// ReSharper disable CheckNamespace
+namespace Microsoft.Extensions.Hosting
+    // ReSharper restore CheckNamespace
 {
     public static class MetricsConfigureHostBuilderExtensions
     {

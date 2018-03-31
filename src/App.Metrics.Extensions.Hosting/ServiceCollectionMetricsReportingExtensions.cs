@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using App.Metrics;
-using App.Metrics.Extensions.Hosting.Reporting;
+using App.Metrics.Extensions.Hosting;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Hosting;
 

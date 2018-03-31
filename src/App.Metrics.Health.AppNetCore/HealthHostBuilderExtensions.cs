@@ -4,12 +4,14 @@
 
 using System;
 using System.Reflection;
+using App.Metrics.Health;
 using App.Metrics.Health.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.Hosting;
 
-namespace App.Metrics.Health.Extensions.Hosting
+// ReSharper disable CheckNamespace
+namespace Microsoft.Extensions.Hosting
+    // ReSharper restore CheckNamespace
 {
     public static class HealthHostBuilderExtensions
     {

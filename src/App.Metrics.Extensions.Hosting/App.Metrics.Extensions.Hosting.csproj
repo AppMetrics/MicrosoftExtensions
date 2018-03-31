@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Description>App Metrics Extensions Hosting provides extensions to configure App Metrics in a .NET Core application.</Description>
+        <Description>Microsoft.Extensions.Hosting (IHostBuilder) support for App Metrics.</Description>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>App.Metrics.Extensions.Hosting</RootNamespace>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -8,12 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="App.Metrics" Version="$(AppMetricsCoreVersion)" />
+        <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\App.Metrics.Extensions.Configuration\App.Metrics.Extensions.Configuration.csproj" />
-        <ProjectReference Include="..\App.Metrics.Extensions.DependencyInjection\App.Metrics.Extensions.DependencyInjection.csproj" />
     </ItemGroup>
 </Project>

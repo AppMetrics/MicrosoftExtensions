@@ -12,7 +12,7 @@ using App.Metrics.Logging;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Hosting;
 
-namespace App.Metrics.Extensions.Hosting.Reporting
+namespace App.Metrics.Extensions.Hosting
 {
     public class MetricsReporterBackgroundService : BackgroundService
     {

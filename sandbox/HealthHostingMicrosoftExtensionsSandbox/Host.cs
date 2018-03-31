@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics.Health;
-using App.Metrics.Health.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +27,8 @@ namespace HealthHostingMicrosoftExtensionsSandbox
                          .WriteTo.Seq("http://localhost:5341", LogEventLevel.Verbose)
                          .CreateLogger();
 
-            var host = new HostBuilder().ConfigureAppConfiguration(
+            var host = new HostBuilder()
+                .ConfigureAppConfiguration(
                     (hostContext, config) =>
                     {
                         config.SetBasePath(Directory.GetCurrentDirectory());

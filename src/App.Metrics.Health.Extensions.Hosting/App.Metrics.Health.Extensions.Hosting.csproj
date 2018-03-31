@@ -13,8 +13,4 @@
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\App.Metrics.Health.Extensions.Configuration\App.Metrics.Health.Extensions.Configuration.csproj" />
-      <ProjectReference Include="..\App.Metrics.Health.Extensions.DependencyInjection\App.Metrics.Health.Extensions.DependencyInjection.csproj" />
-    </ItemGroup>
 </Project>

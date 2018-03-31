@@ -41,9 +41,11 @@ var packDirs                    = new [] {
 											Directory("./src/App.Metrics.Extensions.Configuration"),
 											Directory("./src/App.Metrics.Extensions.DependencyInjection"),
 											Directory("./src/App.Metrics.Extensions.Hosting"),
+											Directory("./src/App.Metrics.AppNetCore")
 											Directory("./src/App.Metrics.Health.Extensions.Configuration"),
 											Directory("./src/App.Metrics.Health.Extensions.DependencyInjection"),
-											Directory("./src/App.Metrics.Health.Extensions.Hosting")
+											Directory("./src/App.Metrics.Health.Extensions.Hosting"),
+											Directory("./src/App.Metrics.Health.AppNetCore")
 										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
 var testResultsDir              = (DirectoryPath) artifactsDir.Combine("test-results");
