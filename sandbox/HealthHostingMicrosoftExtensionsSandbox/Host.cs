@@ -36,43 +36,37 @@ namespace HealthHostingMicrosoftExtensionsSandbox
                         config.AddJsonFile("appsettings.json", optional: true);
                         config.AddCommandLine(args);
                     })
+                .ConfigureMetrics()
                 .ConfigureHealthWithDefaults(
-                    (context, builder) =>
+                    (context, services, builder) =>
                     {
                         builder.OutputHealth.AsPlainText()
                                .OutputHealth.AsJson()
-                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()));
+                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
+                               .RecordResultsAsMetrics(services, TimeSpan.FromSeconds(10));
                     })
                 .Build();
 
             var health = host.Services.GetRequiredService<IHealthRoot>();
-
             var cancellationTokenSource = new CancellationTokenSource();
 
-            await host.RunUntilEscAsync(
-                TimeSpan.FromSeconds(5),
-                cancellationTokenSource,
-                async () =>
+            var healthStatus = await health.HealthCheckRunner.ReadAsync(cancellationTokenSource.Token);
+
+            foreach (var formatter in health.OutputHealthFormatters)
+            {
+                WriteLine($"Formatter: {formatter.GetType().FullName}");
+                WriteLine("-------------------------------------------");
+
+                using (var stream = new MemoryStream())
                 {
-                    Clear();
+                    await formatter.WriteAsync(stream, healthStatus, cancellationTokenSource.Token);
+                    var result = Encoding.UTF8.GetString(stream.ToArray());
+                    WriteLine(result);
+                }
+            }
 
-                    var healthStatus = await health.HealthCheckRunner.ReadAsync(cancellationTokenSource.Token);
-
-                    foreach (var formatter in health.OutputHealthFormatters)
-                    {
-                        WriteLine($"Formatter: {formatter.GetType().FullName}");
-                        WriteLine("-------------------------------------------");
-
-                        using (var stream = new MemoryStream())
-                        {
-                            await formatter.WriteAsync(stream, healthStatus, cancellationTokenSource.Token);
-
-                            var result = Encoding.UTF8.GetString(stream.ToArray());
-
-                            WriteLine(result);
-                        }
-                    }
-                });
+            WriteLine("Press any key to continue..");
+            ReadKey();
 
             await host.RunAsync(token: cancellationTokenSource.Token);
         }

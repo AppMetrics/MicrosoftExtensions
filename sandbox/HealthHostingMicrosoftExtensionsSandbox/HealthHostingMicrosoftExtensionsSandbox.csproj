@@ -23,7 +23,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\src\App.Metrics.AppNetCore\App.Metrics.AppNetCore.csproj" />
 	  <ProjectReference Include="..\..\src\App.Metrics.Health.AppNetCore\App.Metrics.Health.AppNetCore.csproj" />
+	  <ProjectReference Include="..\..\src\App.Metrics.HealthMetrics.Extensions.Hosting\App.Metrics.HealthMetrics.Extensions.Hosting.csproj" />
 	  <ProjectReference Include="..\HealthChecks\HealthChecks.csproj" />
 	</ItemGroup>
 	

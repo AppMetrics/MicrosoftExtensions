@@ -75,7 +75,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Host
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetricsHostingMicrosoftExtensionsSandbox", "sandbox\MetricsHostingMicrosoftExtensionsSandbox\MetricsHostingMicrosoftExtensionsSandbox.csproj", "{68356D5D-1CB0-4943-83C0-94FFD2BE1AFA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Health.Extensions.Hosting", "src\App.Metrics.Health.Extensions.Hosting\App.Metrics.Health.Extensions.Hosting.csproj", "{5B81F864-1384-427D-B248-1711BAD1B185}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.HealthMetrics.Extensions.Hosting", "src\App.Metrics.HealthMetrics.Extensions.Hosting\App.Metrics.HealthMetrics.Extensions.Hosting.csproj", "{5B81F864-1384-427D-B248-1711BAD1B185}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthHostingMicrosoftExtensionsSandbox", "sandbox\HealthHostingMicrosoftExtensionsSandbox\HealthHostingMicrosoftExtensionsSandbox.csproj", "{4C420F70-191E-4D41-99BB-A4D6DE378384}"
 EndProject
