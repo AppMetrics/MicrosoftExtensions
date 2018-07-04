@@ -39,7 +39,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         health.Options,
                         health.OutputHealthFormatters as HealthFormatterCollection,
                         health.DefaultOutputHealthFormatter,
-                        resolvedHealthChecksRunner);
+                        resolvedHealthChecksRunner,
+                        health.Reporters as HealthReporterCollection);
                 });
             services.TryAddSingleton<IRunHealthChecks>(provider =>
             {
@@ -50,7 +51,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     return new NoOpHealthCheckRunner();
                 }
 
-                return new DefaultHealthCheckRunner(checks);
+                return new DefaultHealthCheckRunner(checks, health.Reporters as HealthReporterCollection);
             });
 
             AppMetricsHealthServiceCollectionExtensions.AddCoreServices(services, health);
