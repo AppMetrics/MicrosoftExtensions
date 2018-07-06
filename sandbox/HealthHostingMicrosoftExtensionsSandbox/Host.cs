@@ -42,8 +42,7 @@ namespace HealthHostingMicrosoftExtensionsSandbox
                     {
                         builder.OutputHealth.AsPlainText()
                                .OutputHealth.AsJson()
-                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
-                               .RecordResultsAsMetrics(services, TimeSpan.FromSeconds(10));
+                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()));
                     })
                 .Build();
 

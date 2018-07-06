@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Reflection;
 using App.Metrics.Health;
 using App.Metrics.Health.Extensions.Configuration;
@@ -24,17 +25,48 @@ namespace Microsoft.Extensions.Hosting
         {
             if (_healthBuilt)
             {
-                throw new InvalidOperationException("HealthBuilder allows creation only of a single instance of IMetrics");
+                throw new InvalidOperationException("HealthBuilder allows creation only of a single instance of IHealth");
             }
 
             return hostBuilder.ConfigureServices(
                 (context, services) =>
                 {
                     var healthBuilder = AppMetricsHealth.CreateDefaultBuilder();
+
                     configureHealth(context, healthBuilder);
+
                     healthBuilder.HealthChecks.RegisterFromAssembly(services, dependencyContext ?? GetDependencyContext());
                     healthBuilder.Configuration.ReadFrom(context.Configuration);
-                    healthBuilder.BuildAndAddTo(services);
+
+                    if (healthBuilder.CanReport())
+                    {
+                        services.AddHealthReportingHostedService();
+                    }
+
+                    services.AddHealth(healthBuilder);
+                    _healthBuilt = true;
+                });
+        }
+
+        public static IHostBuilder ConfigureMetrics(
+            this IHostBuilder hostBuilder,
+            IHealthRoot health)
+        {
+            if (_healthBuilt)
+            {
+                throw new InvalidOperationException("HealthBuilder allows creation only of a single instance of IHealth");
+            }
+
+            return hostBuilder.ConfigureServices(
+                (context, services) =>
+                {
+                    if (health.Options.ReportingEnabled && health.Reporters != null && health.Reporters.Any())
+                    {
+                        services.AddHealthReportingHostedService();
+                    }
+
+                    services.AddHealth(health);
+
                     _healthBuilt = true;
                 });
         }
@@ -46,22 +78,33 @@ namespace Microsoft.Extensions.Hosting
         {
             if (_healthBuilt)
             {
-                throw new InvalidOperationException("HealthBuilder allows creation only of a single instance of IMetrics");
+                throw new InvalidOperationException("HealthBuilder allows creation only of a single instance of IHealth");
             }
 
             return hostBuilder.ConfigureServices(
                 (context, services) =>
                 {
                     var healthBuilder = AppMetricsHealth.CreateDefaultBuilder();
+
                     configureHealth(context, services, healthBuilder);
+
                     healthBuilder.HealthChecks.RegisterFromAssembly(services, dependencyContext ?? GetDependencyContext());
                     healthBuilder.Configuration.ReadFrom(context.Configuration);
-                    healthBuilder.BuildAndAddTo(services);
+
+                    if (healthBuilder.CanReport())
+                    {
+                        services.AddHealthReportingHostedService();
+                    }
+
+                    services.AddHealth(healthBuilder);
+
                     _healthBuilt = true;
                 });
         }
 
-        public static IHostBuilder ConfigureHealthWithDefaults(this IHostBuilder hostBuilder, Action<IHealthBuilder> configureHealth)
+        public static IHostBuilder ConfigureHealthWithDefaults(
+            this IHostBuilder hostBuilder,
+            Action<IHealthBuilder> configureHealth)
         {
             if (_healthBuilt)
             {
@@ -69,10 +112,7 @@ namespace Microsoft.Extensions.Hosting
             }
 
             hostBuilder.ConfigureHealthWithDefaults(
-                (context, builder) =>
-                {
-                    configureHealth(builder);
-                });
+                (context, builder) => { configureHealth(builder); });
 
             return hostBuilder;
         }
@@ -94,6 +134,12 @@ namespace Microsoft.Extensions.Hosting
                         {
                             configureHealth(context, healthBuilder);
                             healthBuilder.Configuration.ReadFrom(context.Configuration);
+
+                            if (healthBuilder.CanReport())
+                            {
+                                services.AddHealthReportingHostedService();
+                            }
+
                             _healthBuilt = true;
                         });
                 });
@@ -116,6 +162,12 @@ namespace Microsoft.Extensions.Hosting
                         {
                             configureHealth(context, services, healthBuilder);
                             healthBuilder.Configuration.ReadFrom(context.Configuration);
+
+                            if (healthBuilder.CanReport())
+                            {
+                                services.AddHealthReportingHostedService();
+                            }
+
                             _healthBuilt = true;
                         });
                 });
@@ -129,10 +181,7 @@ namespace Microsoft.Extensions.Hosting
             }
 
             hostBuilder.ConfigureHealth(
-                (context, healthBuilder) =>
-                {
-                    configureHealth(healthBuilder);
-                });
+                (context, healthBuilder) => { configureHealth(healthBuilder); });
 
             return hostBuilder;
         }
@@ -151,19 +200,15 @@ namespace Microsoft.Extensions.Hosting
                 {
                     if (!_healthBuilt)
                     {
-                        AppMetricsHealth.CreateDefaultBuilder()
-                            .Configuration.ReadFrom(context.Configuration)
-                            .HealthChecks.RegisterFromAssembly(services, dependencyContext ?? GetDependencyContext())
-                            .BuildAndAddTo(services);
+                        var builder = AppMetricsHealth.CreateDefaultBuilder().Configuration.ReadFrom(context.Configuration).HealthChecks.
+                                                       RegisterFromAssembly(services, dependencyContext ?? GetDependencyContext());
 
+                        services.AddHealth(builder);
                         _healthBuilt = true;
                     }
                 });
         }
 
-        internal static DependencyContext GetDependencyContext()
-        {
-            return Assembly.GetEntryAssembly() != null ? DependencyContext.Default : null;
-        }
+        internal static DependencyContext GetDependencyContext() { return Assembly.GetEntryAssembly() != null ? DependencyContext.Default : null; }
     }
 }

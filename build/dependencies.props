@@ -2,9 +2,9 @@
   <PropertyGroup>
     <AppMetricsCoreVersion>3.0.0-*</AppMetricsCoreVersion>
     <AppMetricsHealthCoreVersion>2.1.0-*</AppMetricsHealthCoreVersion>
-    <MicrosoftExtensionsVersion>2.1.0</MicrosoftExtensionsVersion>
+    <MicrosoftExtensionsVersion>2.1.1</MicrosoftExtensionsVersion>
     <CoreFxVersion>4.5.0</CoreFxVersion>
-    <DependencyModelVersion>2.1.0-*</DependencyModelVersion>
+    <DependencyModelVersion>2.1.0</DependencyModelVersion>
     <LibLogVersion>5.0.0</LibLogVersion>
     <MicrosoftCSharpVersion>4.5.0</MicrosoftCSharpVersion>
     <MoqVersion>4.8.2</MoqVersion>

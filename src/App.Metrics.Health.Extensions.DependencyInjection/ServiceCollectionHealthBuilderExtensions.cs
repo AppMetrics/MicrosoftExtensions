@@ -51,7 +51,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     return new NoOpHealthCheckRunner();
                 }
 
-                return new DefaultHealthCheckRunner(checks, health.Reporters as HealthReporterCollection);
+                return new DefaultHealthCheckRunner(checks);
             });
 
             AppMetricsHealthServiceCollectionExtensions.AddCoreServices(services, health);
