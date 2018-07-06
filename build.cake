@@ -38,14 +38,14 @@ var linkSources					= HasArgument("LinkSources") ? Argument<bool>("LinkSources")
 // DEFINE FILES & DIRECTORIES
 //////////////////////////////////////////////////////////////////////
 var packDirs                    = new [] {
+											Directory("./src/App.Metrics.AppNetCore"),
 											Directory("./src/App.Metrics.Extensions.Configuration"),
 											Directory("./src/App.Metrics.Extensions.DependencyInjection"),
 											Directory("./src/App.Metrics.Extensions.Hosting"),
-											Directory("./src/App.Metrics.AppNetCore"),
+											Directory("./src/App.Metrics.Health.AppNetCore"),
 											Directory("./src/App.Metrics.Health.Extensions.Configuration"),
 											Directory("./src/App.Metrics.Health.Extensions.DependencyInjection"),
-											Directory("./src/App.Metrics.HealthMetrics.Extensions.Hosting"),
-											Directory("./src/App.Metrics.Health.AppNetCore")
+											Directory("./src/App.Metrics.Health.Extensions.Hosting"),
 										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
 var testResultsDir              = (DirectoryPath) artifactsDir.Combine("test-results");
