@@ -54,7 +54,7 @@ namespace App.Metrics.Health.Extensions.Hosting
             }
 
             while (!cancellationToken.IsCancellationRequested
-                && _healthRoot.Options.Enabled)
+                && _healthRoot.Options.Enabled && _healthRoot.Options.ReportingEnabled)
             {
                 await ExecuteOnceAsync(cancellationToken);
 
