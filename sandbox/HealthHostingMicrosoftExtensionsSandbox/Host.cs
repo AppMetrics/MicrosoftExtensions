@@ -7,6 +7,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Metrics;
+using App.Metrics.Extensions.Configuration;
 using App.Metrics.Health;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,22 +29,33 @@ namespace HealthHostingMicrosoftExtensionsSandbox
                          .WriteTo.Seq("http://localhost:5341", LogEventLevel.Verbose)
                          .CreateLogger();
 
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true)
+                .Build();
+
+            var metrics = AppMetrics.CreateDefaultBuilder()
+                .Configuration.ReadFrom(configuration)
+                .Report.Using<SimpleConsoleMetricsReporter>()
+                .Build();
+
             var host = new HostBuilder()
                 .ConfigureAppConfiguration(
-                    (hostContext, config) =>
-                    {
-                        config.SetBasePath(Directory.GetCurrentDirectory());
-                        config.AddEnvironmentVariables();
-                        config.AddJsonFile("appsettings.json", optional: true);
-                        config.AddCommandLine(args);
-                    })
-                .ConfigureMetrics()
+                           builder =>
+                           {
+                               builder.SetBasePath(Directory.GetCurrentDirectory())
+                                      .AddEnvironmentVariables()
+                                      .AddJsonFile("appsettings.json", optional: true)
+                                      .AddCommandLine(args);
+                           })
+                .ConfigureMetrics(metrics)
                 .ConfigureHealthWithDefaults(
                     (context, services, builder) =>
                     {
                         builder.OutputHealth.AsPlainText()
                                .OutputHealth.AsJson()
-                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()));
+                               .HealthChecks.AddCheck("inline-check", () => new ValueTask<HealthCheckResult>(HealthCheckResult.Healthy()))
+                               .Report.ToMetrics(metrics);
                     })
                 .Build();
 
