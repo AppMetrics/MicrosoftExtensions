@@ -1,5 +1,5 @@
-﻿// <copyright file="DefaultHealthCheckTypeProvider.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="DefaultHealthCheckTypeProvider.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using System;
@@ -11,7 +11,7 @@ namespace App.Metrics.Health.Extensions.DependencyInjection.Internal
 {
     internal sealed class DefaultHealthCheckTypeProvider : IHealthCheckTypeProvider
     {
-        private const string HealthCheckTypeName = "HealthCheck";
+        private const string HealthCheckTypeName = nameof(HealthCheck);
         private static readonly TypeInfo ObjectTypeInfo = typeof(object).GetTypeInfo();
         private readonly StaticHealthAssemblyProvider _assemblyProvider;
 

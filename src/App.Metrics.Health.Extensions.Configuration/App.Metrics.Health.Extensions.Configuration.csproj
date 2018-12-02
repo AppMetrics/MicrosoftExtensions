@@ -1,17 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\build\common.props" />
-  
   <PropertyGroup>
-     <Description>Microsoft.Extensions.Configuration support for App Metrics Health e.g. appsettings.json</Description>
-      <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Description>Microsoft.Extensions.Configuration support for App Metrics Health e.g. appsettings.json</Description>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageTags>appmetricshealth;configuration</PackageTags>
+    <PackageTags>appmetrics;health;configuration</PackageTags>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="App.Metrics.Health" Version="$(AppMetricsHealthCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(MicrosoftExtensionsVersion)" />
   </ItemGroup>
-
 </Project>

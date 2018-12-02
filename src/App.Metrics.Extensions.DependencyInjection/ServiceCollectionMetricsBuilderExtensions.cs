@@ -1,5 +1,5 @@
-﻿// <copyright file="ServiceCollectionMetricsBuilderExtensions.cs" company="Allan Hardy">
-// Copyright (c) Allan Hardy. All rights reserved.
+﻿// <copyright file="ServiceCollectionMetricsBuilderExtensions.cs" company="App Metrics Contributors">
+// Copyright (c) App Metrics Contributors. All rights reserved.
 // </copyright>
 
 using Microsoft.Extensions.DependencyInjection;
