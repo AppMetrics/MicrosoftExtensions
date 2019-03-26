@@ -83,6 +83,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Health.AppNetCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Health.Extensions.Hosting", "src\App.Metrics.Health.Extensions.Hosting\App.Metrics.Health.Extensions.Hosting.csproj", "{3C6AE833-6221-4657-BB72-05B7F1CB99CB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.HealthChecks", "src\App.Metrics.Extensions.HealthChecks\App.Metrics.Extensions.HealthChecks.csproj", "{762D07B6-D449-4C9B-AEC0-0B02128E55EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
 		{3C6AE833-6221-4657-BB72-05B7F1CB99CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C6AE833-6221-4657-BB72-05B7F1CB99CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C6AE833-6221-4657-BB72-05B7F1CB99CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{762D07B6-D449-4C9B-AEC0-0B02128E55EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{762D07B6-D449-4C9B-AEC0-0B02128E55EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{762D07B6-D449-4C9B-AEC0-0B02128E55EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{762D07B6-D449-4C9B-AEC0-0B02128E55EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +188,7 @@ Global
 		{EA922A73-194C-43B8-872E-80C1E4774F87} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{84D673FA-A953-4711-ADE2-44CC7B9FB160} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{3C6AE833-6221-4657-BB72-05B7F1CB99CB} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{762D07B6-D449-4C9B-AEC0-0B02128E55EE} = {2D805782-756E-4C98-B22E-F502BEE95318}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8699A1D-0BA1-403C-86E9-C789CD2645EB}

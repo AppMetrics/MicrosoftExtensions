@@ -10,6 +10,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics;
 using MetricsHostingMicrosoftExtensionsSandbox;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
 using static System.Console;
 
 // ReSharper disable CheckNamespace
@@ -85,6 +88,20 @@ namespace Microsoft.Extensions.Hosting
                     WriteLine(result);
                 }
             }
+        }
+
+        public static Task WriteHealthChecksAsync(this IHost host, CancellationTokenSource cancellationTokenSource)
+        {
+            WriteLine("Health Checks");
+            WriteLine("-------------------------------------------");
+
+            foreach (var formatter in host.Services.GetService<IOptions<HealthCheckServiceOptions>>().Value.Registrations)
+            {
+                WriteLine($"Health Check: {formatter.Name}");
+                WriteLine("\tTags: " + string.Join(", ", formatter.Tags));
+            }
+
+            return Task.CompletedTask;
         }
     }
 }
